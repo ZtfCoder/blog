@@ -12,6 +12,7 @@
         <p>博客采用2021年接触到的vite构建工具而来</p>
         <br />
         <p>采用vitepress 原因很简单,有vue3+vite 支持,可以使用自定义组件</p>
+        <p>本项目采用使用GitHub page 服务部署,GitHub Action 自动化部署</p>
         <p>如果你想和我交朋友,企鹅号: <span class="qq">2936408477</span></p>
       </div>
     </div>

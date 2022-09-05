@@ -36,23 +36,29 @@ const readMd = (path1, path2): DefaultTheme.SidebarItem[] => {
   return list;
 };
 
-export default (): DefaultTheme.Sidebar => {
-  const jsonFiles: DefaultTheme.Sidebar = [];
-  let path = "./docs/main/";
-  fs.readdir(path, (err, files) => {
-    if (err) {
-      return console.error(err);
-    }
-    files.forEach(async (file) => {
-      const flag = await isFiles(path + file);
-      if (!flag) {
-        const list: DefaultTheme.SidebarItem[] = readMd(path, file);
-        jsonFiles.push({
-          text: file,
-          items: list,
-        });
+export default (...originPath: string[]): DefaultTheme.Sidebar => {
+  const jsonFiles: DefaultTheme.Sidebar = {};
+  originPath.forEach((item) => {
+    let path = "./docs" + item;
+    jsonFiles[item] = [];
+    fs.readdir(path, (err, files) => {
+      if (err) {
+        return console.error(err);
       }
+      files.forEach(async (file) => {
+        const flag = await isFiles(path + file);
+        if (!flag) {
+          const list: DefaultTheme.SidebarItem[] = readMd(path, file);
+          jsonFiles[item].push({
+            text: file,
+            items: list,
+            collapsed: true, // 关闭
+            collapsible: true, // 是否显示折叠按钮
+          });
+        }
+      });
     });
   });
+
   return jsonFiles;
 };
