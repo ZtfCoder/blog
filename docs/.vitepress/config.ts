@@ -1,8 +1,8 @@
 import { defineConfig } from "vitepress";
-
+import getSidebar from "./getSidebar";
 export default defineConfig({
   // ...
-  title: "ztf",
+  title: "VitePress-Fun",
   // 是否显示上次更新时间
   lastUpdated: true,
   // 主题配置
@@ -10,22 +10,11 @@ export default defineConfig({
     // 导航配置
     nav: [
       {
-        text: "导航",
-        items: [
-          { text: "导航1", link: "/导航1" },
-          { text: "导航1", link: "/导航2" },
-        ],
+        text: "关于我",
+        link: "/about",
       },
     ],
     // 侧边栏配置
-    sidebar: [
-      {
-        text: "Guide",
-        items: [
-          { text: "Introduction", link: "/introduction" },
-          { text: "Getting Started", link: "/getting-started" },
-        ],
-      },
-    ],
+    sidebar: getSidebar(),
   },
 });

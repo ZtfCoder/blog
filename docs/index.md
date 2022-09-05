@@ -1,14 +1,30 @@
 ---
-home: true //是否为主页
+layout: home
 
-heroImage: /logo.jpeg //主页大图logo地址
-
-actionText: 入门 //左边按钮
-actionLink: /getting/why.html //跳转地址
-
-altActionText: 模板文档 //右边按钮
-altActionLink: /template/template-vue3-ts-initial.html //右边地址
-
-footer: MIT Licensed | Copyright © 2019-prese
+hero:
+  name: 笔记
+  text: 基于vitepress 的博客
+  tagline: Lorem ipsum...
+  image:
+    src: /head.jpg
+  actions:
+    - theme: brand
+      text: 开始
+      link: /guide/what-is-vitepress
+    - theme: alt
+      text: GitHub
+      link: https://github.com/ZtfCoder
+    - theme: alt
+      text: Gitee
+      link: https://gitee.com/zhanggob
+features:
+  - icon: ⚡️
+    title: Vite, The DX that can't be beat
+    details: Lorem ipsum...
+  - icon: 🖖
+    title: Power of Vue meets Markdown
+    details: Lorem ipsum...
+  - icon: 🛠️
+    title: Simple and minimal, always
+    details: Lorem ipsum...
 ---
-dsad

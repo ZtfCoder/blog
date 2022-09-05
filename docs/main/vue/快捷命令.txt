@@ -1,0 +1,2 @@
+npm install rimraf -g   # 全局安装 快速删除node 依赖    
+rimraf node_modules   # 快速删除
