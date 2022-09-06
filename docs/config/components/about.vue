@@ -81,7 +81,7 @@ onMounted(() => {
     width: 100%;
   }
   .about-info {
-    margin-left: 0;
+    margin: 0 30px;
   }
 }
 </style>
