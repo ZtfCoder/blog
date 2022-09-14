@@ -2,30 +2,30 @@
 
 `minio` 是一款高性能分布式文件存储软件
 
-之前采用的`fastdfs` ,官方整合docker,极其难用,第三方的整合也是很多坑点,而`minio` 则官方docker 镜像,构建简单,并且自带的图形化界面
+之前采用的`fastdfs` ,官方整合 docker,极其难用,第三方的整合也是很多坑点,而`minio` 则官方 docker 镜像,构建简单,并且自带的图形化界面
 
 ## 分布式介绍
 
 所谓分布式存储,则是上传一分文件,你可以通过放问不同服务都可以访问到这个文件,
 
-使用的是`纠删码`,是一种恢复丢失和损坏数据的数学算法， Minio默认采用Reed-Solomon code将数据拆分成N/2个数据块和N/2个奇偶校验块。这就意味着如果是16块盘，一个对象会被分成8个数据块、8个奇偶校验块，你可以丢失任意8块盘（不管其是存放的数据块还是校验块），你仍可以从剩下的盘中的数据进行恢复。
+使用的是`纠删码`,是一种恢复丢失和损坏数据的数学算法， Minio 默认采用 Reed-Solomon code 将数据拆分成 N/2 个数据块和 N/2 个奇偶校验块。这就意味着如果是 16 块盘，一个对象会被分成 8 个数据块、8 个奇偶校验块，你可以丢失任意 8 块盘（不管其是存放的数据块还是校验块），你仍可以从剩下的盘中的数据进行恢复。
 
 ## 单机部署
 
 ```yaml
-version: '1'
+version: "1"
 services:
   minio:
     image: minio/minio
     ports:
-      - 9000:9000 
-      - 9001:9001 
+      - 9000:9000
+      - 9001:9001
     environment:
-      MINIO_ACCESS_KEY: root    
-      MINIO_SECRET_KEY: 12345678 
+      MINIO_ACCESS_KEY: root
+      MINIO_SECRET_KEY: 12345678
     volumes:
-      - /home/docker-compose/minio/data:/data               
-      - /home/docker-compose/minio/config:/root/.minio     
+      - /home/docker-compose/minio/data:/data
+      - /home/docker-compose/minio/config:/root/.minio
     command: server --console-address ':9001' /data
     privileged: true
     restart: always
@@ -35,7 +35,7 @@ services:
 
 账号 `root` 密码 `12345678`
 
-其中,9000 为api 访问地址端口
+其中,9000 为 api 访问地址端口
 
 9001 为图形化界面的访问地址端口
 
@@ -47,23 +47,15 @@ services:
 
 首先创建一个桶,所谓桶,可以理解为创建一个空间或者创建一张表,这样理解
 
-<img src="minio安装.assets/KM2Y@6MXL3`L7FFZ]AL9X85.png" alt="img" style="zoom:50%;" />
-
-
+![image-20220914113730822](minio安装.assets/image-20220914113730822.png)
 
 然后 选择 `create bucket`
-
-<img src="minio安装.assets/image-20220914111829483.png" alt="image-20220914111829483" style="zoom:80%;" />
-
-<img src="minio安装.assets/image-20220914112115388.png" alt="image-20220914112115388" style="zoom:67%;" />
-
-
+![image-20220914111829483](minio安装.assets/image-20220914111829483.png)
+![image-20220914112115388](minio安装.assets/image-20220914112115388.png)
 
 上传成功
 
 ![image-20220914112219196](minio安装.assets/image-20220914112219196.png)
-
-
 
 创建桶后,默认桶访问权限是私有的,无法单独访问图片,需要到桶设置里改为 `public`
 
@@ -81,14 +73,12 @@ services:
 
 我们可以去数据存储目录可以看的我们存储的图片已经存在于我们设置的数据存储目录里了
 
-
-
 ## 集群部署
 
 官方 `docker-compose.yaml` 文件有点问题,稍微修改得到一下正确文件
 
 ```yaml
-version: '3.7'
+version: "3.7"
 
 # 所有容器通用的设置和配置
 x-minio-common: &minio-common
@@ -97,8 +87,8 @@ x-minio-common: &minio-common
   expose:
     - "9000"
   # environment:
-    # MINIO_ROOT_USER: minioadmin
-    # MINIO_ROOT_PASSWORD: minioadmin
+  # MINIO_ROOT_USER: minioadmin
+  # MINIO_ROOT_PASSWORD: minioadmin
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
     interval: 30s
@@ -152,10 +142,9 @@ services:
       - minio2
       - minio3
       - minio4
-
 ```
 
-`nginx.conf`  文件内容
+`nginx.conf` 文件内容
 
 ```
 user  nginx;
@@ -224,12 +213,12 @@ http {
 
 `docker-compose up -d ` 运行容器
 
-接下来访问 `http://ip:9001`  其中9001-9004都可以访问
+接下来访问 `http://ip:9001` 其中 9001-9004 都可以访问
 
 默认登录密码为 `minioadmin`
 
-我们可以尝试上传一张图片,接着停止其中1号`minio`
+我们可以尝试上传一张图片,接着停止其中 1 号`minio`
 
-docker-compose stop  `minio1号名称`
+docker-compose stop `minio1号名称`
 
 再次访问图片,可以发现,等会一会后,仍然能访问这张图片,这样 就具备容灾能力
