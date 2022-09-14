@@ -25,6 +25,7 @@ import { onMounted } from "vue";
 onMounted(() => {
   const pList: any = document.querySelectorAll(".about-info p");
   let time = 1;
+  let time2 = 1;
   pList.forEach((item: any) => {
     item.style.animationDelay = `${time}s`;
     time += 1.5;
