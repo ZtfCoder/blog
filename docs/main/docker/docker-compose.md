@@ -65,6 +65,19 @@ docker-compose ps
 docker-compose logs -f
 ```
 
+```yaml
+version: '3'
+services:
+  redis:
+    image: redis
+    container_name: redis_container  
+    restart: always 
+    ports:
+      - 6379:6379
+
+
+```
+
 
 
  
