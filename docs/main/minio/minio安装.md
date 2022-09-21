@@ -31,7 +31,7 @@ services:
     restart: always
 ```
 
-:::
+:::tip 提示
 
 账号 `root` 密码 `12345678`
 
