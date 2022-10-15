@@ -1,0 +1,13 @@
+version: "3"
+services:
+  elasticsearch:
+    image: influxdb:2.4.0 #镜像
+    container_name: influxdb #定义容器名称
+    restart: always #开机启动，失败也会一直重启
+    environment:
+      - "cluster.name=elasticsearch" #设置集群名称为elasticsearch
+    volumes:
+      - $PWD:/var/lib/influxdb2 #插件文件挂载
+      - ./data:/usr/share/elasticsearch/data #数据文件挂载
+    ports:
+      - 8086:8086

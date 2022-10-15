@@ -78,6 +78,12 @@ services:
 
 ```
 
+```
+docker run \
+  --rm influxdb:2.1.1 \
+  influxd print-config > config.yml
+```
+
 
 
  

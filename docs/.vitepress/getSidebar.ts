@@ -15,50 +15,43 @@ const isFiles = (path) => {
   });
 };
 
-const readMd = (path1, path2): DefaultTheme.SidebarItem[] => {
+const readMd = (path1, path2, item): DefaultTheme.SidebarItem[] => {
   const list: DefaultTheme.SidebarItem[] = [];
-  fs.readdir(path1 + path2, (err, files) => {
-    if (err) {
-      console.error(err);
-      return;
+
+  const files = fs.readdirSync(path1 + path2);
+
+  files.forEach((file) => {
+    const index = file.lastIndexOf(".md");
+    if (index != -1) {
+      const text = file.replace(".md", "");
+      list.push({
+        text,
+        link: `${item}${path2}/${text}`,
+      });
     }
-    files.forEach((file) => {
-      const index = file.lastIndexOf(".md");
-      if (index != -1) {
-        const text = file.replace(".md", "");
-        list.push({
-          text,
-          link: `/main/${path2}/${text}`,
-        });
-      }
-    });
   });
   return list;
 };
 
 export default (...originPath: string[]): DefaultTheme.Sidebar => {
   const jsonFiles: DefaultTheme.Sidebar = {};
+  debugger;
   originPath.forEach((item) => {
     let path = "./docs" + item;
     jsonFiles[item] = [];
-    fs.readdir(path, (err, files) => {
-      if (err) {
-        return console.error(err);
+    const files = fs.readdirSync(path);
+    files.forEach(async (file) => {
+      const flag = await isFiles(path + file);
+      if (!flag) {
+        const list: DefaultTheme.SidebarItem[] = readMd(path, file, item);
+        jsonFiles[item].push({
+          text: file,
+          items: list,
+          collapsed: true, // 关闭
+          collapsible: true, // 是否显示折叠按钮
+        });
       }
-      files.forEach(async (file) => {
-        const flag = await isFiles(path + file);
-        if (!flag) {
-          const list: DefaultTheme.SidebarItem[] = readMd(path, file);
-          jsonFiles[item].push({
-            text: file,
-            items: list,
-            collapsed: true, // 关闭
-            collapsible: true, // 是否显示折叠按钮
-          });
-        }
-      });
     });
   });
-
   return jsonFiles;
 };
