@@ -58,6 +58,5 @@
     "postcss",
     "vue"
   ],
-  "volar.vueserver.useSecondServer": false,
   "typescript.tsdk": "node_modules/typescript/lib"
 }
