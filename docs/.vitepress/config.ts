@@ -28,7 +28,11 @@ export default defineConfig({
           },
           {
             text: "后端常用工具",
-            link: "/myUtils/工具集/",
+            link: "/后端/",
+          },
+          {
+            text: "杂烩",
+            link: "/杂烩/",
           },
         ],
       },
@@ -38,7 +42,7 @@ export default defineConfig({
       },
     ],
     // 侧边栏配置
-    sidebar: getSidebar("/main/", "/myUtils/"),
+    sidebar: getSidebar("/main/", "/myUtils/", "/杂烩/"),
     lastUpdatedText: "上次更新时间",
     docFooter: {
       prev: "上一篇",
