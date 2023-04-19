@@ -1,6 +1,6 @@
 ## hello world
 
-```c++
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -11,15 +11,15 @@ int main() {
 
 ```
 
-其中文件开头需要导入 `iostream`  基础库,c++ 中可以省略.h 后缀,所以可以不用写.h
+其中文件开头需要导入 `iostream` 基础库,c++ 中可以省略.h 后缀,所以可以不用写.h
 
 #include 表示引入某个库的代码
 
-而 `using namespace std` 表示 使用 `std` 这个命名空间 因为,我们接下来的使用的`cout` 输出函数,是在 `std`  这个命名空间中,`namespace` 主要是用来区分 不同头文件的中的相同函数名,也就说,接下来使用的cout 函数是在 std 中
+而 `using namespace std` 表示 使用 `std` 这个命名空间 因为,我们接下来的使用的`cout` 输出函数,是在 `std` 这个命名空间中,`namespace` 主要是用来区分 不同头文件的中的相同函数名,也就说,接下来使用的 cout 函数是在 std 中
 
-如果我们不声明std 命名空间的话,需要手动表示这个函数是属于哪个命名空间中,因为他在外面的空间中找不到,因此需要下面这样写
+如果我们不声明 std 命名空间的话,需要手动表示这个函数是属于哪个命名空间中,因为他在外面的空间中找不到,因此需要下面这样写
 
-```c++
+```cpp
 #include <iostream>
 int main() {
 	std::cout << "hello world" << std::endl;
@@ -27,13 +27,13 @@ int main() {
 }
 ```
 
-所以,我们导入的`std` 命名空间后,可以省略cout前面的 `std::`  这种前缀
+所以,我们导入的`std` 命名空间后,可以省略 cout 前面的 `std::` 这种前缀
 
 `endl` 表示 换行输出
 
 ## 输入输出
 
-```c++
+```cpp
 #include <iostream>
 using namespace std;
 int main() {
@@ -49,12 +49,12 @@ int main() {
 
 ## 函数值传递,指针传递,引用传递
 
-```c++
+```cpp
 #include <iostream>
 using namespace std;
 
 /*
-	引用 
+	引用
 	相当于 b 也是指向的a 变量, 类似于指针这种 a, b 变量都指向 10这个值
 */
 
@@ -107,7 +107,7 @@ int main() {
 }
 ```
 
-引用传递实际上底层是 指针常量  ,无法再次修改,相当于是 指针的一个语法糖的使用,简化指针在函数传递的书写
+引用传递实际上底层是 指针常量 ,无法再次修改,相当于是 指针的一个语法糖的使用,简化指针在函数传递的书写
 
 ## 内存管理
 
@@ -115,7 +115,7 @@ int main() {
 
 我们可以`new` 变量,使用`new` 关键词后,变量会被创建在 堆中,语法如下
 
-```c++
+```cpp
 void f() {
 	int * p = new int(10);
 }
@@ -123,17 +123,17 @@ void f() {
 
 返回的是指针类型的变量
 
-如果使用了new 关键词,变量不会被系统回收,只能手动释放变量
+如果使用了 new 关键词,变量不会被系统回收,只能手动释放变量
 
-```c++
+```cpp
 delete p;
 ```
 
-这样就能释放p 变量
+这样就能释放 p 变量
 
 ## 函数默认参数
 
-```c++
+```cpp
 int func(int a, int b = 10, int c = 10) {
 	return a + b + c;
 }
@@ -156,16 +156,16 @@ int main() {
 }
 ```
 
-##  struct和class区别
+## struct 和 class 区别
 
-在C++中 struct和class唯一的**区别**就在于 **默认的访问权限不同**
+在 C++中 struct 和 class 唯一的**区别**就在于 **默认的访问权限不同**
 
 区别：
 
-* struct 默认权限为公共
-* class   默认权限为私有
+- struct 默认权限为公共
+- class 默认权限为私有
 
-```c++
+```cpp
 class C1
 {
 	int  m_A; //默认是私有权限
@@ -189,4 +189,3 @@ int main() {
 	return 0;
 }
 ```
-

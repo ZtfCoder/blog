@@ -1,8 +1,8 @@
 ## class 声明
 
-声明一个class 类型
+声明一个 class 类型
 
-```c++
+```cpp
 class Studnet {
 public:
 	string name;
@@ -19,12 +19,12 @@ public: 表示他们的访问权限
 
 使用
 
-```c++
+```cpp
 class Studnet {
 public:
 	string name;
 	int age;
-	
+
 	int getAge() {
 		return age;
 	}
@@ -44,9 +44,9 @@ int main() {
 
 class 对象可以直接声明后,直接使用,相当于是临时变量,函数执行完,就会自动释放
 
-还可以使用 new 关键词进行创建对象 
+还可以使用 new 关键词进行创建对象
 
-```c++
+```cpp
 Studnet * s2 = new Studnet();
 int age = s2->age;
 delete s2;
@@ -54,13 +54,13 @@ delete s2;
 
 ## 构造函数和析构函数
 
-构造函数 和Java 一样,在创建对象的时候,进行调用,语法也是一样, `类名(){}`
+构造函数 和 Java 一样,在创建对象的时候,进行调用,语法也是一样, `类名(){}`
 
 析构函数 是对象在被回收前进行执行的方法, 语法 `~类名(){}`,析构函数只能有一个
 
 如果,不写构造函数和析构函数,编译器会有一个默认的空实现
 
-```c++
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -85,27 +85,25 @@ int main(){
 }
 ```
 
-
-
 ## 构造函数分类
 
 两种分类方式：
 
-​	按参数分为： 有参构造和无参构造
+​ 按参数分为： 有参构造和无参构造
 
-​	按类型分为： 普通构造和拷贝构造
+​ 按类型分为： 普通构造和拷贝构造
 
 三种调用方式：
 
-​	括号法
+​ 括号法
 
-​	显示法
+​ 显示法
 
-​	隐式转换法
+​ 隐式转换法
 
 **示例：**
 
-```C++
+```cpp
 //1、构造函数分类
 // 按照参数分类分为 有参和无参构造   无参又称为默认构造函数
 // 按照类型分类分为 普通构造和拷贝构造
@@ -149,13 +147,13 @@ void test02() {
 	//Person p2();
 
 	//2.2 显式法
-	Person p2 = Person(10); 
+	Person p2 = Person(10);
 	Person p3 = Person(p2);
 	//Person(10)单独写就是匿名对象  当前行结束之后，马上析构
 
 	//2.3 隐式转换法
-	Person p4 = 10; // Person p4 = Person(10); 
-	Person p5 = p4; // Person p5 = Person(p4); 
+	Person p4 = 10; // Person p4 = Person(10);
+	Person p5 = p4; // Person p5 = Person(p4);
 
 	//注意2：不能利用 拷贝构造函数 初始化匿名对象 编译器认为是对象声明
 	//Person p5(p4);
@@ -176,11 +174,11 @@ int main() {
 
 C++中拷贝构造函数调用时机通常有三种情况
 
-* 使用一个已经创建完毕的对象来初始化一个新对象
-* 值传递的方式给函数参数传值
-* 以值方式返回局部对象
+- 使用一个已经创建完毕的对象来初始化一个新对象
+- 值传递的方式给函数参数传值
+- 以值方式返回局部对象
 
-```c++
+```cpp
 class Person {
 public:
 	Person() {
@@ -253,9 +251,9 @@ int main() {
 
 ## 静态变量
 
-和Java类型,类中可以写 静态变量
+和 Java 类型,类中可以写 静态变量
 
-```c++
+```cpp
 class MyClass
 {
 public:
@@ -277,9 +275,9 @@ int main(){
 }
 ```
 
- 还可以在类中进行初始化,但是必须使用`const` 修饰
+还可以在类中进行初始化,但是必须使用`const` 修饰
 
-```c++
+```cpp
 static const  int age=10;
 ```
 
@@ -287,7 +285,7 @@ static const  int age=10;
 
 this 代表当前调用的对象的指针类型
 
-```c++
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -313,6 +311,6 @@ int main() {
 }
 ```
 
-c++ 中如果空指针是可以访问对象中的方法的,但是,如果方法中含有`this`  (属性前面会默认使用this.) 则会程序出错
+c++ 中如果空指针是可以访问对象中的方法的,但是,如果方法中含有`this` (属性前面会默认使用 this.) 则会程序出错
 
 也就是说 `f1()` 函数不会出错,但是`f2() ` 函数会运行错误
