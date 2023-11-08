@@ -2,6 +2,7 @@ import { defineConfig } from "vitepress";
 import getSidebar from "./getSidebar";
 export default defineConfig({
   // ...
+  head:[['link', { rel: 'icon', href: '/favicon.ico' }]],
   title: "Baka-Blog",
   // 是否显示上次更新时间
   lastUpdated: true,
