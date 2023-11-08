@@ -8,6 +8,9 @@ export default defineConfig({
   markdown: {
     lineNumbers: true,
   },
+  sitemap: {
+    hostname: 'https://ztfcoder.github.io'
+  },
   // 主题配置
   themeConfig: {
     socialLinks: [{ icon: "github", link: "https://github.com/ZtfCoder/blog" }],
@@ -41,9 +44,15 @@ export default defineConfig({
         link: "/about",
       },
     ],
+    lastUpdated:{
+      text:"上次更新时间"
+    },
+    search: {
+      provider: 'local'
+    },
     // 侧边栏配置
     sidebar: getSidebar("/main/", "/myUtils/", "/杂烩/"),
-    lastUpdatedText: "上次更新时间",
+    // lastUpdatedText: "上次更新时间",
     docFooter: {
       prev: "上一篇",
       next: "下一篇",
