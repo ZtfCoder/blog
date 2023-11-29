@@ -2,12 +2,13 @@ import { DefaultTheme } from "vitepress";
 import * as fs from "fs";
 
 
+
 /**
  * 是否是文件
  * @param path
  * @returns
  */
-const isFiles = (path) => {
+const isFiles = (path: fs.PathLike) => {
   return new Promise((resolve) => {
     fs.stat(path, (err, stats) => {
       resolve(stats.isFile());
@@ -17,9 +18,7 @@ const isFiles = (path) => {
 
 const readMd = (path1, path2, item): DefaultTheme.SidebarItem[] => {
   const list: DefaultTheme.SidebarItem[] = [];
-
   const files = fs.readdirSync(path1 + path2);
-
   files.forEach((file) => {
     const index = file.lastIndexOf(".md");
     if (index != -1) {
@@ -32,6 +31,15 @@ const readMd = (path1, path2, item): DefaultTheme.SidebarItem[] => {
   });
   return list;
 };
+
+
+const nav :DefaultTheme.NavItem[]= [
+
+]
+
+
+
+
 
 export default (...originPath: string[]): DefaultTheme.Sidebar => {
   const jsonFiles: DefaultTheme.Sidebar = {};

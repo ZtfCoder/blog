@@ -44,6 +44,19 @@ export default defineConfig({
         text: "关于我",
         link: "/about",
       },
+      {
+        text: "realme",
+        items:[
+          {
+            text: "我的日志",
+            link: "/realme/mylog/"
+          },
+          {
+            text: "我的故事",
+            link: "/realme/mystory/"
+          }
+        ]
+      },
     ],
     lastUpdated:{
       text:"上次更新时间"
@@ -52,7 +65,7 @@ export default defineConfig({
       provider: 'local'
     },
     // 侧边栏配置
-    sidebar: getSidebar("/main/", "/myUtils/", "/杂烩/"),
+    sidebar: getSidebar("/main/", "/myUtils/", "/杂烩/","/realme/mystory/","/realme/mylog/"),
     // lastUpdatedText: "上次更新时间",
     docFooter: {
       prev: "上一篇",
