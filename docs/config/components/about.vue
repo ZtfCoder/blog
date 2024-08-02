@@ -6,7 +6,7 @@
       </div>
       <div class="about-info">
         <p>你好这里是Baka</p>
-        <p>22岁,喜欢Java ,go,js,和各种前沿技术</p>
+        <p>{{ age }}岁,喜欢Java ,go,js,和各种前沿技术</p>
         <p>除此之外还喜欢动漫,电影,资深二次元</p>
         <p>这里是从hero next 主题博客搬家过来的新博客网站</p>
         <p>博客采用2021年接触到的vite构建工具而来</p>
@@ -20,12 +20,44 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from "vue";
-
+import solarLunar from "solarlunar-es";
+import { onMounted, ref } from "vue";
+const birthday = "4-16";
+const age = ref(0);
 onMounted(() => {
   const pList: any = document.querySelectorAll(".about-info p");
   let time = 1;
   let time2 = 1;
+  const today = new Date();
+  const solar2lunarData = solarLunar.lunar2solar(
+    today.getFullYear(),
+    4,
+    16,
+    false
+  );
+  console.log(solar2lunarData);
+
+  // 计算年龄
+  const birthDate = new Date(
+    `${today.getFullYear()}-${solar2lunarData.cMonth}-${solar2lunarData.cDay}`
+  );
+  console.log(
+    `${birthDate.getFullYear()}-${
+      birthDate.getMonth() + 1
+    }-${birthDate.getDate()}`
+  );
+
+  const yearsDifference = today.getFullYear() - birthDate.getFullYear();
+  if (
+    today.getMonth() < birthDate.getMonth() ||
+    (today.getMonth() == birthDate.getMonth() &&
+      today.getDate() < birthDate.getDate())
+  ) {
+    age.value = yearsDifference - 1;
+  } else {
+    age.value = yearsDifference;
+  }
+
   pList.forEach((item: any) => {
     item.style.animationDelay = `${time}s`;
     time += 1.5;
