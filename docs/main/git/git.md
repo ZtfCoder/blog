@@ -43,6 +43,11 @@ git add 文件名
 git add --all
 
 git add ./  代表当前目录  *是所有文件,
+
+删除暂存区的内容
+
+--cached 表示只是删除git版本控制
+git rm -r --cached  D:\development\uniapp\vote-uniapp\vote\target
 ~~~
 
 
