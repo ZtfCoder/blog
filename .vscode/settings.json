@@ -9,10 +9,9 @@
   "editor.inlineSuggest.enabled": true,
   "editor.bracketPairColorization.enabled": true,
   "editor.suggest.snippetsPreventQuickSuggestions": false,
-  "editor.fontFamily": "'Cascadia Code', Consolas, Menlo, Monaco, 'Courier New', 黑体, monospace",
   "editor.codeActionsOnSave": {
-    "source.fixAll": true,
-    "source.organizeImports": true
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
   },
   "files.autoGuessEncoding": true,
   "files.insertFinalNewline": true,

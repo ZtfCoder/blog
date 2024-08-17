@@ -2,11 +2,15 @@ import { defineConfig } from "vitepress";
 import getSidebar from "./getSidebar";
 export default defineConfig({
   // ...
+  head:[['link', { rel: 'icon', href: '/favicon.ico' }]],
   title: "Baka-Blog",
   // 是否显示上次更新时间
   lastUpdated: true,
   markdown: {
     lineNumbers: true,
+  },
+  sitemap: {
+    hostname: 'https://ztfcoder.github.io'
   },
   // 主题配置
   themeConfig: {
@@ -40,10 +44,29 @@ export default defineConfig({
         text: "关于我",
         link: "/about",
       },
+      {
+        text: "realme",
+        items:[
+          {
+            text: "我的日志",
+            link: "/realme/mylog/"
+          },
+          {
+            text: "我的故事",
+            link: "/realme/mystory/"
+          }
+        ]
+      },
     ],
+    lastUpdated:{
+      text:"上次更新时间"
+    },
+    search: {
+      provider: 'local'
+    },
     // 侧边栏配置
-    sidebar: getSidebar("/main/", "/myUtils/", "/杂烩/"),
-    lastUpdatedText: "上次更新时间",
+    sidebar: getSidebar("/main/", "/myUtils/", "/杂烩/","/realme/mystory/","/realme/mylog/"),
+    // lastUpdatedText: "上次更新时间",
     docFooter: {
       prev: "上一篇",
       next: "下一篇",

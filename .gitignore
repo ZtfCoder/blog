@@ -8,3 +8,4 @@ dist/
 *.ntvs*
 *.njsproj
 *.sln
+cache/

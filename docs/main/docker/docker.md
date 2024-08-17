@@ -45,7 +45,7 @@ yum-config-manager \
 # 更新yum索引
 yum makecache fast
 # 安装docker 引擎
-sudo yum install docker-ce docker-ce-cli containerd.io
+sudo yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 # 安装完成后,启动,docker 服务,不然,无法使用
 systemctl start docker
 ```
