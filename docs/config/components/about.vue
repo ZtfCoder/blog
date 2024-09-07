@@ -22,40 +22,53 @@
 <script lang="ts" setup>
 import solarLunar from "solarlunar-es";
 import { onMounted, ref } from "vue";
-const birthday = "4-16";
 const age = ref(0);
+interface Solar2lunar {
+  lYear: number;
+  lMonth: number;
+  lDay: number;
+  animal: string;
+  monthCn: string;
+  dayCn: string;
+  cYear: number;
+  cMonth: number;
+  cDay: number;
+  gzYear: string;
+  gzMonth: string;
+  gzDay: string;
+  isToday: boolean;
+  isLeap: boolean;
+  nWeek: number;
+  ncWeek: string;
+  isTerm: boolean;
+  term: string;
+  lunarFestival: string;
+  festival: string;
+}
 onMounted(() => {
   const pList: any = document.querySelectorAll(".about-info p");
   let time = 1;
-  let time2 = 1;
   const today = new Date();
+  const birthDate = solarLunar.lunar2solar(2000, 4, 16, false) as Solar2lunar;
   const solar2lunarData = solarLunar.lunar2solar(
     today.getFullYear(),
     4,
     16,
     false
-  );
-  console.log(solar2lunarData);
-
-  // 计算年龄
-  const birthDate = new Date(
-    `${today.getFullYear()}-${solar2lunarData.cMonth}-${solar2lunarData.cDay}`
-  );
-  console.log(
-    `${birthDate.getFullYear()}-${
-      birthDate.getMonth() + 1
-    }-${birthDate.getDate()}`
-  );
-
-  const yearsDifference = today.getFullYear() - birthDate.getFullYear();
-  if (
-    today.getMonth() < birthDate.getMonth() ||
-    (today.getMonth() == birthDate.getMonth() &&
-      today.getDate() < birthDate.getDate())
-  ) {
-    age.value = yearsDifference - 1;
+  ) as Solar2lunar;
+  //根据当前日期 计算年龄
+  // birthDate 出生的阳历日期  solar2lunarData 当年生日的阳历日期, today 当前日期
+  const diffYear = solar2lunarData.cYear - birthDate.cYear;
+  if (solar2lunarData.cMonth < birthDate.cMonth) {
+    age.value = diffYear - 1;
+  } else if (solar2lunarData.cMonth === birthDate.cMonth) {
+    if (solar2lunarData.cDay < birthDate.cDay) {
+      age.value = diffYear - 1;
+    } else {
+      age.value = diffYear;
+    }
   } else {
-    age.value = yearsDifference;
+    age.value = diffYear;
   }
 
   pList.forEach((item: any) => {
