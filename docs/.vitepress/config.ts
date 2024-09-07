@@ -2,7 +2,16 @@ import { defineConfig } from "vitepress";
 import getSidebar from "./getSidebar";
 export default defineConfig({
   // ...
-  head:[['link', { rel: 'icon', href: '/favicon.ico' }]],
+  head: [
+    [
+      "meta",
+      {
+        name: "google-site-verification",
+        content: "eLQHfdBDlTdTLXtNSNAeDoT6xDNxKy3ZndFojW5LDJg",
+      },
+    ],
+    ["link", { rel: "icon", href: "/favicon.ico" }],
+  ],
   title: "Baka-Blog",
   // 是否显示上次更新时间
   lastUpdated: true,
@@ -10,7 +19,7 @@ export default defineConfig({
     lineNumbers: true,
   },
   sitemap: {
-    hostname: 'https://ztfcoder.github.io'
+    hostname: "https://ztfcoder.github.io",
   },
   // 主题配置
   themeConfig: {
@@ -46,26 +55,32 @@ export default defineConfig({
       },
       {
         text: "realme",
-        items:[
+        items: [
           {
             text: "我的日志",
-            link: "/realme/mylog/"
+            link: "/realme/mylog/",
           },
           {
             text: "我的故事",
-            link: "/realme/mystory/"
-          }
-        ]
+            link: "/realme/mystory/",
+          },
+        ],
       },
     ],
-    lastUpdated:{
-      text:"上次更新时间"
+    lastUpdated: {
+      text: "上次更新时间",
     },
     search: {
-      provider: 'local'
+      provider: "local",
     },
     // 侧边栏配置
-    sidebar: getSidebar("/main/", "/myUtils/", "/杂烩/","/realme/mystory/","/realme/mylog/"),
+    sidebar: getSidebar(
+      "/main/",
+      "/myUtils/",
+      "/杂烩/",
+      "/realme/mystory/",
+      "/realme/mylog/"
+    ),
     // lastUpdatedText: "上次更新时间",
     docFooter: {
       prev: "上一篇",
