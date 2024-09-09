@@ -1,7 +1,5 @@
-import { DefaultTheme } from "vitepress";
 import * as fs from "fs";
-
-
+import { DefaultTheme } from "vitepress";
 
 /**
  * 是否是文件
@@ -32,26 +30,21 @@ const readMd = (path1, path2, item): DefaultTheme.SidebarItem[] => {
   return list;
 };
 
-
-const nav :DefaultTheme.NavItem[]= [
-
-]
-
-
-
-
+const nav: DefaultTheme.NavItem[] = [];
 
 export default (...originPath: string[]): DefaultTheme.Sidebar => {
   const jsonFiles: DefaultTheme.Sidebar = {};
+  console.time("读取文件");
   originPath.forEach((item) => {
     let path = "./docs" + item;
     jsonFiles[item] = [];
     const files = fs.readdirSync(path);
+    const taskList: Promise<any>[] = [];
     files.forEach(async (file) => {
       const flag = await isFiles(path + file);
       if (!flag) {
         const list: DefaultTheme.SidebarItem[] = readMd(path, file, item);
-        let a = jsonFiles[item] as DefaultTheme.SidebarItem[]
+        let a = jsonFiles[item] as DefaultTheme.SidebarItem[];
         a.push({
           text: file,
           items: list,
@@ -61,5 +54,6 @@ export default (...originPath: string[]): DefaultTheme.Sidebar => {
       }
     });
   });
+  console.timeEnd("读取文件");
   return jsonFiles;
 };
