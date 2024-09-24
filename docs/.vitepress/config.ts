@@ -12,6 +12,7 @@ export default defineConfig({
     ],
     ["link", { rel: "icon", href: "/favicon.ico" }],
   ],
+  description: "Baka-Blog",
   title: "Baka-Blog",
   // 是否显示上次更新时间
   lastUpdated: true,
@@ -92,4 +93,5 @@ export default defineConfig({
     },
   },
   ignoreDeadLinks: true,
+  metaChunk: true,
 });
