@@ -75,7 +75,12 @@ export default defineConfig({
       text: "上次更新时间",
     },
     search: {
-      provider: "local",
+      provider: "algolia",
+      options: {
+        appId: "JM5U0C0N8U",
+        apiKey: "270868394ba076fb646fbd2b8863ffad",
+        indexName: "ztfcoderio",
+      },
     },
     // 侧边栏配置
     sidebar: getSidebar(
