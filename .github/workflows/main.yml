@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0
       # 1、生成静态文件
       - name: Build
-        run: yarn install && yarn docs:build
+        run: pnpm install && pnpm docs:build
 
       # 2、部署到 GitHub Pages
       - name: Deploy
