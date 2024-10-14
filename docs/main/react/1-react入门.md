@@ -231,13 +231,13 @@ React.useState 会返回一个数组,`[text,setText]` 第一个表示我们绑�
 
 这里有一个知识点,setText 函数是异步执行,可以刷新页面后打开 f12,再次点击页面,可以看到控制台仍然打印的 `Hello, world!` .这个操作是异步执行,一定要记住这个特性
 
-## useEffert
+## useEffect
 
 为什么要学这个函数
 
-在项目实际开发中,我们通常会在页面加载的时候,去调用接口初始化我们的页面,此时,我们需要一个页面加载完成的函数,在 react 中,就可以使用 useEffert (实际这里并不是页面加载完成,暂时可以理解为 是页面加载完成)
+在项目实际开发中,我们通常会在页面加载的时候,去调用接口初始化我们的页面,此时,我们需要一个页面加载完成的函数,在 react 中,就可以使用 useEffect (实际这里并不是页面加载完成,暂时可以理解为 是页面加载完成)
 
-和 useState 一样, useEffert 也需要写在组件内部,不能在外面单独写
+和 useState 一样, useEffect 也需要写在组件内部,不能在外面单独写
 
 ```html
 <script type="text/babel">
@@ -250,8 +250,8 @@ React.useState 会返回一个数组,`[text,setText]` 第一个表示我们绑�
       console.log(text);
     };
 
-    React.useEffert(() => {
-      console.log("useEffert执行");
+    React.useEffect(() => {
+      console.log("useEffect执行");
     }, []);
 
     return <h1 onClick={handleClick}>{text}</h1>;
@@ -265,22 +265,22 @@ React.useState 会返回一个数组,`[text,setText]` 第一个表示我们绑�
 </script>
 ```
 
-可以看到 useEffert 有 2 个参数,第一个是一个函数,函数内容就是我们要执行的内容,第二个参数,在这里写了一个空数组代表 页面第一次加载才执行,第二个参数意义在于可以监听我们的变量的变更例如
+可以看到 useEffect 有 2 个参数,第一个是一个函数,函数内容就是我们要执行的内容,第二个参数,在这里写了一个空数组代表 页面第一次加载才执行,第二个参数意义在于可以监听我们的变量的变更例如
 
 ```js
-React.useEffert(() => {
-  console.log("useEffert执行");
+React.useEffect(() => {
+  console.log("useEffect执行");
 }, [text]);
 ```
 
-这样写之后,表示,每次当 text 变化的时候,才会执行 useEffert,相当于 此时 useEffert 有了另外一个名字,依赖收集,当依赖发生变化的时候,就好执行我们的函数,
+这样写之后,表示,每次当 text 变化的时候,才会执行 useEffect,相当于 此时 useEffect 有了另外一个名字,依赖收集,当依赖发生变化的时候,就好执行我们的函数,
 
-useEffert 还有一个用法,为组件销毁时,执行某个函数
+useEffect 还有一个用法,为组件销毁时,执行某个函数
 
 在实际开发中,我们可能会在页面加载时,去监听某个事件,但是如果,当我们切换页面或者切换组件的时候,没有把这个事件销毁掉,它便会一直存在于内存中,导致无法释放,如果绑定多了,就会导致`内存泄漏`,所以我们需要在页面销毁的时候,移除监听事件
 
 ```js
-React.useEffert(() => {
+React.useEffect(() => {
   document.addEventListener("scroll", () => {
     console.log("scroll");
   });
