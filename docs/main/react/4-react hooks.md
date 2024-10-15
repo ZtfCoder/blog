@@ -208,3 +208,288 @@ const Page = ()=>{
 说明 age 没有被重新创建
 
 ### useMemo
+
+useMemo 是一个根据依赖变化后,自动执行函数并返回一个值的函数
+
+例如
+
+```jsx
+import React, { useMemo, useState } from "react";
+const Index = () => {
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
+
+  const z = useMemo(() => {
+    return x + y;
+  }, [x, y]);
+
+  return (
+    <>
+      <div>
+        x:
+        <input
+          type="number"
+          onChange={(event) => setX(Number(event.target.value))}
+        />
+      </div>
+      <div>
+        y:
+        <input
+          type="number"
+          onChange={(event) => setX(Number(event.target.value))}
+        />
+      </div>
+      <div>相加等于{z}</div>
+    </>
+  );
+};
+export default Index;
+```
+
+复制代码到组件内,打开页面,可以看到 x,y 输入框已经出现,在输入框输入值就可以发现
+最后一行已经计算出来了,
+
+解释下上述部分代码意思
+onChange:如果我们要监听 `input` 发生变化需要使用 `onChange` 事件,几乎所有的 input 都是使用 `onChange`来
+Number: Number 是一个 js 自带转换类型的函数,可以把字符串类型转成数字类型,js 没有专门用于表示浮点数的类型,整数和浮点数都是使用 Number 来转换,还有其他方法可以转换成数字,比如 `parseInt` ,`parseFloat`,所以这里使用 `Number` 来转换比较通用,我们不需要去处理到底是用 parseInt,还是 parseFloat
+event: 在 js 中每一个监听事件在回调的时候都有一个`event` 形参,event 内容有些不一样,在这里,如果我们要获取输入框发生变化的值,则是使用 `event.target.value`,此时获取出来是字符串类型,所以需要使用 `Number` 来转换
+
+你可以想说,那我也可以不用 `useMemo`也可以实现啊 只需要在最后改成 `相加等于{x+y}`,对没错,这样也可以,但是如果计算的逻辑非常多,就不方便写在页面中了,
+所以,理论是用`useMemo` 的地方都可以用其他方式实现,`useMemo` 不是唯一实现的方式
+
+还有一些其他场景可以用于自动计算,例如 购物车的总价计算,多选框是否全选等等,这里写一个多选框全选的案例
+
+```jsx
+import React, { useMemo, useState } from "react";
+const CheckboxDemo = () => {
+  const [ids, setIds] = useState([]);
+  const checked = (id) => {
+    const find = ids.find((idTemp) => idTemp === id);
+    if (find) {
+      // 如果找到了，就删除
+      setIds(ids.filter((idTemp) => idTemp !== id));
+    } else {
+      // 如果没找到，就添加
+      setIds([...ids, id]);
+    }
+  };
+
+  const isCheckAll = useMemo(() => {
+    return ids.length === 3;
+  }, [ids]);
+
+  const checkAll = () => {
+    if (isCheckAll) {
+      setIds([]);
+    } else {
+      setIds([1, 2, 3]);
+    }
+  };
+
+  return (
+    <>
+      <div>
+        1
+        <input
+          type="checkbox"
+          name="checkbox"
+          id=""
+          checked={ids.find((id) => id === 1)}
+          onChange={() => checked(1)}
+        />
+      </div>
+      <div>
+        2
+        <input
+          type="checkbox"
+          name="checkbox"
+          id=""
+          checked={ids.find((id) => id === 2)}
+          onChange={() => checked(2)}
+        />
+      </div>
+      <div>
+        3
+        <input
+          type="checkbox"
+          name="checkbox"
+          id=""
+          checked={ids.find((id) => id === 3)}
+          onChange={() => checked(3)}
+        />
+      </div>
+      <div>
+        全选
+        <input
+          type="checkbox"
+          name="all"
+          id=""
+          checked={isCheckAll}
+          onChange={checkAll}
+        />
+      </div>
+    </>
+  );
+};
+export default CheckboxDemo;
+```
+
+## 购物车练习
+
+```jsx
+import React, { useState } from "react";
+import styles from "./index.module.css";
+const CartList = () => {
+  // 购物车列表
+  const [cartList, setCartList] = useState([]);
+
+  // 保存用户输入的内容
+  const [name, setName] = useState();
+  const [count, setCount] = useState();
+  const [price, setPrice] = useState();
+
+  // 往购物车添加一条记录
+  const addCart = () => {
+    if (!name || !count || !price) {
+      alert("请输入完整信息");
+      return;
+    }
+    // 创建一个商品对象
+    const newCart = {
+      id: new Date().getTime(), // 为了方便，这里直接使用时间戳作为id
+      name,
+      price,
+      count,
+    };
+    // 设置购物车列表的值
+    setCartList([...cartList, newCart]);
+  };
+
+  // 加号按钮点击事件
+  const add = (id) => {
+    // 用map 去查询我们点击的商品对象,根据id查询
+    const newCartList = cartList.map((item) => {
+      if (item.id === id) {
+        // 找到了就数量+1
+        item.count += 1;
+      }
+      return item;
+    });
+    // 注意,用map生成的 数组是一个新数组,不是以前那个数组对象,所以我们需要重新set
+    setCartList(newCartList);
+  };
+
+  // 减号按钮点击事件
+  const del = (id) => {
+    const newCartList = cartList.map((item) => {
+      if (item.id === id && item.count > 0) {
+        item.count -= 1;
+      }
+      return item;
+    });
+    setCartList(newCartList);
+  };
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <div>添加库存请输入: </div>
+        <div>
+          商品名称：
+          <input
+            type="text"
+            onChange={(event) => setName(event.target.value)}
+          />
+        </div>
+        <div>
+          单价：
+          <input
+            type="number"
+            onChange={(event) => setPrice(Number(event.target.value))}
+          />
+        </div>
+        <div>
+          数量：
+          <input
+            type="number"
+            onChange={(event) => setCount(Number(event.target.value))}
+          />
+        </div>
+        <div>
+          <button className={styles.addBtn} type="button" onClick={addCart}>
+            添加
+          </button>
+        </div>
+      </div>
+      <div className={styles.cartList}>
+        {cartList.map((item) => {
+          return (
+            <div key={item.id} className={styles.cartItem}>
+              <div>id:{item.id}</div>
+              <div>名称:{item.name}</div>
+              <div>单价:{item.price}</div>
+              <div>
+                数量:
+                <button type="button" onClick={() => add(item.id)}>
+                  +
+                </button>
+                <input type="text" value={item.count} disabled />
+                <button type="button" onClick={() => del(item.id)}>
+                  -
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      当前总价:
+    </div>
+  );
+};
+
+export default CartList;
+```
+
+`index.module.css`
+
+```css
+.header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.cartItem {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+input {
+  width: 100px;
+}
+input:focus {
+  outline: none;
+}
+
+.addBtn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 24px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+button:focus {
+  outline: none !important;
+}
+```
+
+1. 实现计算购物车总价显示
+   提示,使用 useMemo() 来实现,商品总价等于:每个商品的单价\*数量的总和
+
+2. 在每个商品最后添加一个删除的按钮,用于删除当前商品,
+
+3. 在 id 前面增加一个多选框,用于选中当前商品,只有选中的商品才会进行总价计算
+
+4. 增加全选,功能,点击全选,所有商品的多选框都会全选,再次点击,会取消全部商品的多选框
