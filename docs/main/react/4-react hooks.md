@@ -7,7 +7,7 @@ description: react hooks
 
 react 中有一个概念叫`hooks ` 所谓`hooks` 就是可以复用的通用代码,具有很强的复用性
 
-### useState
+## useState
 
 useState 是最为核心的一个内置 hooks,它的作用主要是存储页面渲染的数据
 
@@ -84,7 +84,7 @@ console.log(data);
 
 可能并不会马上打印`123`,因为 setData 是一个异步的,所以我们不能马上获取到 data
 
-### useEffect
+## useEffect
 
 useEffect 翻译过来,就是 依赖收集,就是可以根据某些数据发生变化后立刻执行,
 
@@ -158,7 +158,7 @@ const Page = ()=>{
 什么时候销毁,例如触发到 setData 的时候,切换组件的时候,跳转页面的时候
 组件销毁的时候我们需要干嘛:我们需要清除页面的定时器,不然页面可能会重新创建定时器;需要清除页面的监听事件
 
-### useRef
+## useRef
 
 useRef 可以在页面重新渲染的时候避免 变量重新创建,例如
 最开始 有一个变量 let age = 19
@@ -207,7 +207,7 @@ const Page = ()=>{
 当我们再次点击的时候,就会发现,控制打印的是 18 而不是 19 了,
 说明 age 没有被重新创建
 
-### useMemo
+## useMemo
 
 useMemo 是一个根据依赖变化后,自动执行函数并返回一个值的函数
 
@@ -484,6 +484,8 @@ button:focus {
   outline: none !important;
 }
 ```
+
+## 挑战
 
 1. 实现计算购物车总价显示
    提示,使用 useMemo() 来实现,商品总价等于:每个商品的单价\*数量的总和
