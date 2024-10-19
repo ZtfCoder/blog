@@ -38,6 +38,15 @@ const Page = () => {
 
 props 中可以传递任何值,也可以传递一个函数进来
 
+```jsx
+const Page = () => {
+  const handleClick = () => {
+    alert("这是父组件 Page 的方法");
+  };
+  return <UserList name={"hxg"} age={18} handleClick={handleClick} />;
+};
+```
+
 注意 props 可以无限传递,可以传递给子组件的子组件 但是比较繁琐,对于这种情况 react 有解决方案,后续会讲
 
 需要注意的是,如果在父组件内使用了 setXXX 的 useState 函数时,父组件重新渲染,子组件也会重新渲染
@@ -48,7 +57,7 @@ props 中可以传递任何值,也可以传递一个函数进来
 
 有时候,我们希望我们封装的组件能够实现嵌套复用,例如,二手交易市场, 移动端 h5 项目,页面都有一些共同的部分
 
-例如,左上角都有返回箭头,点击可以返回上个页面,每个页面 header 头中间都有当前页面的名字,所以我们可以吧这些内容都封装成一个组件,实现方式有 2 种,单独些一个`Header` 组件,然后在每个页面中引入,
+例如,左上角都有返回箭头,点击可以返回上个页面,每个页面 header 头中间都有当前页面的名字,所以我们可以吧这些内容都封装成一个组件,实现方式有 2 种,单独写一个`Header` 组件,然后在每个页面中引入,
 例如
 
 页面 1
@@ -88,7 +97,7 @@ const Page2 =()=>{
 
 但是如果我们的页面需要让除了 header 以外的区域进行滚动;设置页面的背景颜色,如果这种公共的功能每个页面都要写一遍非常繁琐,所以有了另外一种使用场景组件嵌套
 
-这里我们定义一个公共的组件 `Page`
+这里我们定义一个公共的组件 `Page`,注意这样的通用组件,放在项目的 `components` 文件夹下
 
 ```jsx
 const Page = (props, ref) => {
@@ -97,6 +106,7 @@ const Page = (props, ref) => {
     right, //右边的内容
     backIcon = "这里是默认的返回icon",
     showNavBar = true, //是否显示头部的
+    children,
   } = props;
 
   const handleBack = () => {
@@ -111,7 +121,7 @@ const Page = (props, ref) => {
           <div>{right}</div>
         </div>
       )}
-      <div>{props.children}</div>
+      <div>{children}</div>
     </>
   );
 };
@@ -126,11 +136,12 @@ const {
   right, //右边的内容
   backIcon = "icon", //返回的icon样式,有一个默认值
   showNavBar = true, //是否显示头部的
+  children,
 } = props;
 ```
 
 我们根据`showNavBar` 值来判定是否显示 header 信息
-往下有个 div 内容是 `props.children` 这个就表示 Page 组件下 的全部内容子组件,注意这里一定是叫这个名字
+往下有个 div 内容是 `children` 这个就表示 Page 组件下 的全部内容子组件,注意这里一定是叫这个名字
 
 接着我们创建一个新页面
 
