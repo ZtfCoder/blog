@@ -1,3 +1,8 @@
+---
+title: react和typescript第一节
+description: react typescript
+---
+
 ## 什么是 typescript
 
 ::: warning 提示
@@ -177,3 +182,35 @@ age = "18"; //ts 不报错
 age = 18; // ts 不报错
 age = null; // ts 报错,因为只允许 字符串或者数字类型
 ```
+
+## 泛型类型
+
+`ts`的泛型 和`Java`的泛型是一样的意思,泛型一般是写在函数的参数上,或者给类型 type 或者 interface 上使用
+
+```ts
+const fun = <T, R>(p1: T, p2: R) => {
+  console.log(p1, p2);
+};
+```
+
+这里定义了一个函数 fun,函数有个参数,p1 和 p2,参数的类型是由外部决定的,例如,我如果要使用 fun 的话,就需要一下写法
+
+```ts
+fun<string, number>("1", 2);
+```
+
+这样就表示,此时 fun 的第一个参数是 string 类型,第二个参数为 number 类型,如果我们都传入`"1"` 字符串的 1,则会提示类型错误
+
+通常,很少需要我们自己去定义泛型,很多时候都是使用别人写好的函数,而这个函数,需要自己定义参数类型,例如`react` 中的`useState` 则是需要自己定义存储的是什么类型的数据,`useMemo` 也是同理
+
+## any 类型
+
+any 是 ts 最大的类型,使用 any 类型,可以无视 ts 的其他类型检测,尽量少使用 any 类型,如果使用 any 类型,就和跟没有 ts 的一样的意思
+
+```ts
+const fun = (age: any) => {};
+```
+
+声明 any 后,ts 会无视传入的类型
+
+## as 语法

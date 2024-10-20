@@ -3,55 +3,164 @@ title: react 第5节
 description: react props
 ---
 
-## props
+## 父子组件
 
-props 是用于在不同组件传递数据的词
-写法是
+在实际开发中,一个页面的代码非常多,随着项目继续开发,页面的代码会越来越多,导致维护困难,在这个时候,我们通常会把一个页面的代码拆分到不同的`jsx`文件中, 这些`jsx` 文件,我们统称为组件
+
+![alt text](ts/image4.png)
+
+可以看到,我们把页面拆分成了 4 个组件,每个组件都是独立的`jsx` 文件
+
+这样方便我们不同的人在一个页面进行独立开发,开发完后,再统一合并到一个`jsx` 文件中,最终组成了我们的页面
+
+其中 最终合并的 jsx 文件 我们叫`父组件`, 例如上图中,组件 1,组件 2,组件 3,组件 4 我们统称为 这个父组件的 子组件,拥有父子关系
+
+以下是父子组件的用例
 
 ```jsx
-
-  // props通常是用写成一个对象的形式
-const UserList = (props)=>{
-
-  // 一般我们在组件内使用解构的形式获取对象中的值(只是习惯,也可以不按照这样)
-  // 假如 props 中有 name和age
-  const { name,age } = props
-  // 省略内容
+// 这是我们的页面组件
+import { useState } from "react";
+import Header from "./components/Header";
+import UserList from "./components/UserList";
+import Footer from "./components/Footer";
+const Page = () => {
+  const [title, setTitle] = useState("这是标题");
+  const [userList, setUserList] = useState(["zs", "ls", "ww"]);
   return (
-    <div>name:{name}</div>
-    <div>age:{age}</div>
-  )
-}
+    <div>
+      <Header></Header>
+      <UserList></UserList>
+      <Footer></Footer>
+    </div>
+  );
+};
+return Page;
+```
 
+在 Page 组件中,我们引入了 3 个组件 `Header`,`UserList`,`Footer`,这 3 个组件,就是 Page 的子组件,而 Page 就是`Header`,`UserList`,`Footer`这 3 个组件的父组件
+
+在 Page 组件的 jsx 文件目录下创建`components` 目录,用于存放 Page 组件的子组件
+然后创建`Header`,`UserList`,`Footer`这 3 个组件
+
+```jsx
+const Header = () => {
+  return <div>这里是 Header</div>;
+};
+return Header;
+```
+
+```jsx
+const UserList = () => {
+  return <div>这里是 UserList</div>;
+};
+return UserList;
+```
+
+```jsx
+const Footer = () => {
+  return <div>这里是 Footer</div>;
+};
+return Footer;
+```
+
+## props
+
+一个页面,是有不同的数据渲染出来的,上面我们拆分了 Page 页面成三个独立的组件,我们如何才能把`Page` 页面的数据传递给我们的子组件呢,此时就需要使用 `react` 提供的 `props` 功能,所谓 props 就是用于把父组件的数据,传递给子组件,在上面的案例,我们需要把 `title` 传递给 `Header` 组件,把`userList` 传递给 `UserList` 组件
+
+首先我们需要在我们的子组件中声明我们这个组件是需要接受外部传递数据的,写在`UserList`函数的参数上,通常是写成 `props` 这个名字,
+
+```jsx
+const Header = (props) => {
+  // 一般我们在组件内使用解构的形式获取对象中的值(只是习惯,也可以不按照这样)
+  const { title } = props; // 从props 中 获取由父组件传递过来的数据,名字叫title
+  // 省略内容
+  return <div>title:{title}</div>; // 把title 渲染到页面上面
+};
 ```
 
 其中函数式组件的参数就是我们的 props,其他组件想要传递则需要按照以下格式
 
 ```jsx
-// 这里是另外一个页面,引入我们写好的组件
+// 这是我们的页面组件
+import { useState } from "react";
+import Header from "./component/Header";
+import UserList from "./component/UserList";
+import Footer from "./component/Footer";
 const Page = () => {
-  return <UserList name={"hxg"} age={18} />;
+  const [title, setTitle] = useState("这是标题");
+  const [userList, setUserList] = useState(["zs", "ls", "ww"]);
+  return (
+    <div>
+      <Header title={title}></Header> {/* 在这里用,我们把title 传递给子组件 */}
+      <UserList></UserList>
+      <Footer></Footer>
+    </div>
+  );
 };
+return Page;
 ```
 
-这里需要注意,子组件中的 props 变量是不可更改的,不能去修改子组件的 props 值,只能在父组件修改
+回到页面就可以看到父组件中的值,在子组件中给渲染出来了
+
+这里需要注意,子组件中的 props 变量是不能在组件进行更改的,不能去修改子组件的 props 值,我们只能通过父组件的函数进行修改
 
 props 中可以传递任何值,也可以传递一个函数进来
 
 ```jsx
+import { useState } from "react";
+import Header from "./component/Header";
+import UserList from "./component/UserList";
+import Footer from "./component/Footer";
 const Page = () => {
-  const handleClick = () => {
-    alert("这是父组件 Page 的方法");
+  const [title, setTitle] = useState("这是标题");
+  const [userList, setUserList] = useState(["zs", "ls", "ww"]);
+
+  const handleChangeTitle = (title) => {
+    setTitle(title);
   };
-  return <UserList name={"hxg"} age={18} handleClick={handleClick} />;
+
+  return (
+    <div>
+      <Header title={title} updateTitle={handleChangeTitle}></Header> {/* 在这里用,我们把handleChangeTitle 传递给子组件 */}
+      <UserList></UserList>
+      <Footer></Footer>
+    </div>
+  );
+};
+return Page;
+```
+
+然后修改子组件的参数,
+
+```jsx
+const Header = (props) => {
+  // 一般我们在组件内使用解构的形式获取对象中的值(只是习惯,也可以不按照这样)
+  const { title, updateTitle } = props; // 从props 中 获取由父组件传递过来的数据,名字叫title,这里的updateTitle 就是父组件传递过来的handleChangeTitle
+
+  // 省略内容
+  return (
+    <div>
+      title:{title}
+      <button onClick={() => updateTitle("hxg")}>请点击更改</button>
+    </div>
+  ); // 把title 渲染到页面上面
 };
 ```
 
+这里可以看到我们虽然在父组件里写的是 `updateTitle={handleChangeTitle}`
+但是在子组件我们这个函数的名字是`updateTitle` 所以,props 的名称,不一定要和变量名称一致
+
+此时我们点击按钮,就会触发 `updateTitle` 而`updateTitle` 实际上是父组件的`handleChangeTitle` 这个函数,所以触发`updateTitle`的本质上是触发了`handleChangeTitle` 这个函数
+
 注意 props 可以无限传递,可以传递给子组件的子组件 但是比较繁琐,对于这种情况 react 有解决方案,后续会讲
 
-需要注意的是,如果在父组件内使用了 setXXX 的 useState 函数时,父组件重新渲染,子组件也会重新渲染
+练习下,把 把父组件的`userList` 变量传递给 `UserList` 组件,进行渲染
 
-可以自己练习下,在父组件传递参数到子组件,然后再通过点击事件修改传递到子组件的 props
+::: warning 提示
+我们知道当组件内调用 setXXX 的时候会使页面重新渲染,也就是让函数组件重新执行一次,
+如果在父组件内使用了 setXXX 的 useState 函数时,父组件重新渲染的同时,子组件也会重新渲染,
+但是如果子组件进行 setXX 的时候,并不会触发父组件的渲染
+:::
 
 ## 组件嵌套
 
@@ -65,8 +174,10 @@ const Page = () => {
 ```jsx
 const Page1 =()=>{
   return (
-    <Header title="页面1" />
-    <User />
+    <>
+     <Header title="页面1" />
+      <User />
+    <>
   )
 }
 ```
@@ -76,8 +187,11 @@ const Page1 =()=>{
 ```jsx
 const Page2 =()=>{
   return (
-    <Header title="页面2" />
-    <User />
+    <>
+      <Header title="页面2" />
+      <User />
+    <>
+
   )
 }
 ```
@@ -87,8 +201,10 @@ const Page2 =()=>{
 ```jsx
 const Page2 =()=>{
   return (
-    <Header title="页面3" />
-    <User />
+    <>
+      <Header title="页面3" />
+      <User />
+    <>
   )
 }
 ```
