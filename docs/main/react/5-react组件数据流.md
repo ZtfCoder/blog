@@ -34,7 +34,7 @@ const Page = () => {
     </div>
   );
 };
-return Page;
+export default Page;
 ```
 
 在 Page 组件中,我们引入了 3 个组件 `Header`,`UserList`,`Footer`,这 3 个组件,就是 Page 的子组件,而 Page 就是`Header`,`UserList`,`Footer`这 3 个组件的父组件
@@ -46,21 +46,21 @@ return Page;
 const Header = () => {
   return <div>这里是 Header</div>;
 };
-return Header;
+export default Header;
 ```
 
 ```jsx
 const UserList = () => {
   return <div>这里是 UserList</div>;
 };
-return UserList;
+export default UserList;
 ```
 
 ```jsx
 const Footer = () => {
   return <div>这里是 Footer</div>;
 };
-return Footer;
+export default Footer;
 ```
 
 ## props
@@ -97,7 +97,7 @@ const Page = () => {
     </div>
   );
 };
-return Page;
+export default Page;
 ```
 
 回到页面就可以看到父组件中的值,在子组件中给渲染出来了
@@ -127,7 +127,7 @@ const Page = () => {
     </div>
   );
 };
-return Page;
+export default Page;
 ```
 
 然后修改子组件的参数,
