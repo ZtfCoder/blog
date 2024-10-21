@@ -52,7 +52,7 @@ const handleClick = (name: string, age: number): string => {
 我们把 `handleClick`的返回值改成 `return 1` 可以看到编辑器给我们提示了错误
 
 ```ts
-const handleClick = (name: string, age: number): number => {
+const handleClick = (name: string, age: number): string => {
   console.log(name);
   return 1;
 };
