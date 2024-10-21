@@ -307,6 +307,68 @@ const UserPage = ()=>{
 
 这样就可以看到右侧内容已经被渲染出来了,为什么传入 right 就会渲染出来呢,因为我们最开始写 Page 组件的时候把 `right`已经渲染在 div 上了,可以回头看下`Page` 组件
 
+## props 和组件嵌套的案例
+
+自定义一个叫`Visible`的组件,作用就是根据 props 的一个参数叫`visible` 属性,来判定是否显示内容,例如,如果`visible={true}` 则表示 `Visible` 组件下的内容代码正常显示,如果为 false,则表示,`Visible` 组件下的内容隐藏,利用这种方式可以替换我们在 jsx 中写 三元运算符这种 动态显示代码,可以让代码变得简洁,例如,我们在`Page` 目录同级的`components` 下创建`Visible` 组件,这个目录的`components` 表示全局通用的组件,而,某个页面下的`components` 则表示,当前页面拆分的组件,是和页面紧密相关的并且只在这个页面使用
+
+```jsx
+type Props = {
+  /** 是否显示 */
+  visible: any,
+  /** 包裹的子组件 */
+  children: any,
+};
+
+const Visible = ({ visible, children }: Props) => {
+  if (!visible) return null;
+  return children;
+};
+
+export default Visible;
+```
+
+可以看到 如果 `!visible` 则会返回`null` ,jsx 对于返回为`null`的结果是不会进行显示的
+
+对此我们可以替换购物车以下代码
+
+```jsx
+{
+  carList.length > 0 && (
+    <>
+      <div className={styles.checkAllBox}>
+        全选：
+        <input
+          type="checkbox"
+          className={styles.goodsCheckAll}
+          onChange={checkALL}
+          checked={isCheckALL}
+        />
+      </div>
+      <div>当前总价：{currentTotal}元</div>
+    </>
+  );
+}
+```
+
+修改成
+
+```jsx
+<Visible visible={carList.length > 0}>
+  <div className={styles.checkAllBox}>
+    全选：
+    <input
+      type="checkbox"
+      className={styles.goodsCheckAll}
+      onChange={checkALL}
+      checked={isCheckALL}
+    />
+  </div>
+  <div>当前总价：{currentTotal}元</div>
+</Visible>
+```
+
+通过这种方式,可以让我们的代码阅读起来更加方便,当`carList.length > 0` 时,才会显示总价内容,否则不显示
+
 ## 购物车拆分
 
 对于拆分,我们通常会把具有很多 HTML 解构的代码抽离出去,并且这部分代码是相对独立的
