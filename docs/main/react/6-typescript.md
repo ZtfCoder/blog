@@ -32,7 +32,7 @@ ts 写起来和 Java 一样,ts 相比于 js 只是多了类型声明,没有增�
 创建一个`index.ts` 文件
 
 ```ts
-// 声明一个 数字类型 变量
+// 声明一个 数字类型 变量    :number  表示这个变量是数字类型的
 const age: number = 20;
 
 // 给函数参数和返回值声明类型
@@ -48,6 +48,15 @@ const handleClick = (name: string, age: number): string => {
 函数的返回值类型,大多数时候可以不用写,因为 ts 编译器可以自动帮我们推测,我们的返回值他是什么类型例如刚才`handleClick` 函数
 
 如果把返回值类型去掉,ts 是可以知道,我们返回的是字符串类型,因为`name` 是字符串,他可以从你返回的变量的类型进行推测,所以大多数时候我们没有写返回值的类型
+
+我们把 `handleClick`的返回值改成 `return 1` 可以看到编辑器给我们提示了错误
+
+```ts
+const handleClick = (name: string, age: number): number => {
+  console.log(name);
+  return 1;
+};
+```
 
 ![alt text](ts/image1.png)
 但是注意,这个只是编辑器报错,并不影响代码运行,但是存在未知的风险,假如,一个函数是返回 number 类型后要进行加减运算,但是,我们实际上返回了一个字符串类型,如果这个字符串后面和其他的数字类型进行运行,则会出现运算错误,所以这就是未知风险,我们要尽可能的避免 ts 这种问题
