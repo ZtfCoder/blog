@@ -162,6 +162,125 @@ const Header = (props) => {
 但是如果子组件进行 setXX 的时候,并不会触发父组件的渲染
 :::
 
+## props 案例
+
+在项目里我们会封装一些常见的组件,比如,封装一个通用的`loading` 组件,能够在任何地方引入进行一个转圈显示,又例如,我们会封装项目使用的通用按钮
+能够在任何地方引入,这样的好处是整个项目的按钮风格是统一的,不然,每个人写的按钮样式不一样,会导致风格差异过大
+
+我们在项目的根目录下的`components` 文件夹下创建`Loading` 组件,创建 jsx 文件前,记得先创建一个`Loading`的文件夹
+
+```jsx
+import styles from "./index.module.css";
+const Loading = () => {
+  return (
+    <i className={styles.loading}>
+      <img
+        src="https://fastly.jsdelivr.net/gh/ZtfCoder/img/loading.png"
+        className={styles.img}
+      />
+    </i>
+  );
+};
+
+export default Loading;
+```
+
+`index.module.css` 文件内容
+
+```css
+.loading {
+  display: inline-block;
+  animation: spin 1s infinite linear;
+}
+//创建一个动画帧，从 0% 到 100% 旋转 360 度
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.img {
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+}
+```
+
+此时我们就创建一个`loading`的组件,当我们引入这个组件到其他的页面的时候,他就会显示出来,并进行转圈起到一个加载的作用
+
+我们再在`pages` 目录下创建一个页面`LoadingPage` 用来展示这个案例
+
+```jsx
+// 这里引入的路径根据自己的来写
+import Loading from "../../components/Loading";
+
+const LoadingPage = () => {
+  return (
+    <div>
+      <Loading />
+    </div>
+  );
+};
+export default LoadingPage;
+```
+
+在`APP` 里引入`LoadingPage` 就可以看到这个加载组件了
+
+但是,我们可以发现,此时我们无法控制这个组件什么时候停止转圈,也就是我们无法控制什么时候显示这个加载,什么时候不显示这个加载,所以,我们引入了`props` 来告诉这个组件,什么时候显示,什么时候不显示
+
+我们通过在页面给`loading` 组件传递一个值,用这个值来告诉,是否进行显示,通常,我们会先给`Loading` 组件编写`props`的代码,然后再回到页面,去给组件传值,这样的好处是就是相当于,先声明变量,然后再使用变量,这种意思
+
+```jsx
+import styles from "./index.module.css";
+// 这里 的props 可以叫任意值,不一定叫props,我们通常叫props,因为这是一个约定俗成的名字
+// props 表示的是父组件传递给子组件的数据
+const Loading = (props) => {
+  // 这里的loading 是从父组件传递过来的,这里的loading 是一个布尔值,如果为true,则显示加载中,如果为false,则不显示加载中
+  const { loading } = props;
+  // 如果loading 为false,则返回null,不显示加载中
+  if (!loading) {
+    return null; // react中,如果返回null,则表示不显示任何内容
+  }
+  // 如果loading 为true,则显示加载中
+  return (
+    <i className={styles.loading}>
+      <img
+        src="https://fastly.jsdelivr.net/gh/ZtfCoder/img/loading.png"
+        className={styles.img}
+      />
+    </i>
+  );
+};
+
+export default Loading;
+```
+
+回到`LoadingPage.jsx`
+
+```jsx
+// 这里引入的路径根据自己的来写
+import { useState } from "react";
+import Loading from "../../components/Loading";
+
+const LoadingPage = () => {
+  // 这里的loading 是一个布尔值,如果为true,则显示加载中,如果为false,则不显示加载中
+  const [loading, setLoading] = useState(false);
+
+  return (
+    <div>
+      {/* 把 loading 值传递给 Loading 组件   */}
+      <Loading loading={loading} />
+      <div>
+        <button onClick={() => setLoading(!loading)}>点击我</button>
+      </div>
+    </div>
+  );
+};
+export default LoadingPage;
+```
+
 ## 组件嵌套
 
 有时候,我们希望我们封装的组件能够实现嵌套复用,例如,二手交易市场, 移动端 h5 项目,页面都有一些共同的部分
@@ -172,41 +291,40 @@ const Header = (props) => {
 页面 1
 
 ```jsx
-const Page1 =()=>{
+const Page1 = () => {
   return (
     <>
-     <Header title="页面1" />
+      <Header title="页面1" />
       <User />
-    <>
-  )
-}
+    </>
+  );
+};
 ```
 
 页面 2
 
 ```jsx
-const Page2 =()=>{
+const Page2 = () => {
   return (
     <>
       <Header title="页面2" />
       <User />
-    <>
-
-  )
-}
+    </>
+  );
+};
 ```
 
 页面 3
 
 ```jsx
-const Page2 =()=>{
+const Page2 = () => {
   return (
     <>
       <Header title="页面3" />
       <User />
-    <>
-  )
-}
+    </>
+  );
+};
 ```
 
 这种方式相当于是独立的组件,如果我们这个组件只有这些功能,那可以这么写
@@ -262,18 +380,20 @@ const {
 接着我们创建一个新页面
 
 ```jsx
-const UserPage = ()=>{
-  return <>
-    <Page title="用户信息页">
-      <div>div1</div>
-      <div>div2</div>
-      <div>div3</div>
-      <div>div4</div>
-      <div>div5</div>
-      <div>div6</div>
-    </Page>
-  <>
-}
+const UserPage = () => {
+  return (
+    <>
+      <Page title="用户信息页">
+        <div>div1</div>
+        <div>div2</div>
+        <div>div3</div>
+        <div>div4</div>
+        <div>div5</div>
+        <div>div6</div>
+      </Page>
+    </>
+  );
+};
 ```
 
 这里可以看到,我们实现了自定义组件的嵌套,写起来就和 普通的 html 标签一样,这样我们就可以在每个页面使用这个`Page` 组件嵌套,减少我们写重复代码,项目开发中可能会嵌套好几层
@@ -283,26 +403,25 @@ const UserPage = ()=>{
 一下是使用方式
 
 ```jsx
-const UserPage = ()=>{
-
+const UserPage = () => {
   // 定义一个函数式组件,注意,react 虽然允许你在组件内定义组件,但是很少我们这么操作,你可以写在外面,单独的文件,或者写在当前 UserPage 函数外都可以,
-  const Right = ()=>{
-    return <h2>右侧内容</h2>
+  const Right = () => {
+    return <h2>右侧内容</h2>;
+  };
 
-  }
-
-  return <>
-    <Page title="用户信息页" right={Right()}>
-      <div>div1</div>
-      <div>div2</div>
-      <div>div3</div>
-      <div>div4</div>
-      <div>div5</div>
-      <div>div6</div>
-    </Page>
-  <>
-}
-
+  return (
+    <>
+      <Page title="用户信息页" right={Right()}>
+        <div>div1</div>
+        <div>div2</div>
+        <div>div3</div>
+        <div>div4</div>
+        <div>div5</div>
+        <div>div6</div>
+      </Page>
+    </>
+  );
+};
 ```
 
 这样就可以看到右侧内容已经被渲染出来了,为什么传入 right 就会渲染出来呢,因为我们最开始写 Page 组件的时候把 `right`已经渲染在 div 上了,可以回头看下`Page` 组件
@@ -312,14 +431,8 @@ const UserPage = ()=>{
 自定义一个叫`Visible`的组件,作用就是根据 props 的一个参数叫`visible` 属性,来判定是否显示内容,例如,如果`visible={true}` 则表示 `Visible` 组件下的内容代码正常显示,如果为 false,则表示,`Visible` 组件下的内容隐藏,利用这种方式可以替换我们在 jsx 中写 三元运算符这种 动态显示代码,可以让代码变得简洁,例如,我们在`Page` 目录同级的`components` 下创建`Visible` 组件,这个目录的`components` 表示全局通用的组件,而,某个页面下的`components` 则表示,当前页面拆分的组件,是和页面紧密相关的并且只在这个页面使用
 
 ```jsx
-type Props = {
-  /** 是否显示 */
-  visible: any,
-  /** 包裹的子组件 */
-  children: any,
-};
-
-const Visible = ({ visible, children }: Props) => {
+const Visible = (props) => {
+  const { visible, children } = props;
   if (!visible) return null;
   return children;
 };
