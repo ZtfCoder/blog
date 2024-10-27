@@ -428,21 +428,7 @@ const UserPage = () => {
 
 ## props 和组件嵌套的案例
 
-自定义一个叫`Visible`的组件,作用就是根据 props 的一个参数叫`visible` 属性,来判定是否显示内容,例如,如果`visible={true}` 则表示 `Visible` 组件下的内容代码正常显示,如果为 false,则表示,`Visible` 组件下的内容隐藏,利用这种方式可以替换我们在 jsx 中写 三元运算符这种 动态显示代码,可以让代码变得简洁,例如,我们在`Page` 目录同级的`components` 下创建`Visible` 组件,这个目录的`components` 表示全局通用的组件,而,某个页面下的`components` 则表示,当前页面拆分的组件,是和页面紧密相关的并且只在这个页面使用
-
-```jsx
-const Visible = (props) => {
-  const { visible, children } = props;
-  if (!visible) return null;
-  return children;
-};
-
-export default Visible;
-```
-
-可以看到 如果 `!visible` 则会返回`null` ,jsx 对于返回为`null`的结果是不会进行显示的
-
-对此我们可以替换购物车以下代码
+在购物车案例中,我们写过一段代码
 
 ```jsx
 {
@@ -463,7 +449,54 @@ export default Visible;
 }
 ```
 
-修改成
+这段代码,表示当购物车里有数据的时候,即 carList 数组的长度大于 0 的时候,才会显示全选,以及总价信息,
+
+我们要根据某个条件为 true 的时候,才会显示后面的代码,这里,只是根据`carList.length > 0`这个条件,如果以后,我们的条件变的特别的复杂的时候,这样写就不方便了,于是,我们需要开发一个通用的组件,组件的作用就是根据某个条件,来判断是否需要显示后续内容
+
+在项目的根目录下的`components`文件夹下,创建`Visible` 组件,记得要先创建文件夹,再创建 jsx 文件
+
+自定义一个叫`Visible`的组件,作用就是根据`props`里面的一个值,暂且命名为`visible`,来判断是否显示组件的内的内容,当`visible`的值为 false 的时候,我们就不显示这个组件内的内容,如果为`true`,则显示组件内的内容
+
+```jsx
+const Visible = (props) => {
+  // visible 表示是否显示当前组件的内容  children 表示 Visible 组件下的内容,不好理解可以先跳过这个值
+  const { visible, children } = props;
+  if (!visible) return null; // 如果react组件内返回null,则表示不渲染当前这个组件
+  return children; // return children; 则表示渲染当前 Visible 下面的全部内容
+};
+
+export default Visible;
+```
+
+然后在`pages` 目录下 创建`VisiblePage` 页面,引入我们的 `Visible`组件
+
+```jsx
+import { useState } from "react";
+import Visible from "../../components/Visible"; //这里根据自己的目录来引入
+const VisiblePage = () => {
+  const [visible, setVisible] = useState(true);
+  return (
+    <div>
+      <button onClick={() => setVisible(true)}>点击显示组件</button>
+      <button onClick={() => setVisible(false)}>点击隐藏组件</button>
+      <Visible visible={visible}>这里是children</Visible>
+    </div>
+  );
+};
+export default VisiblePage;
+```
+
+解释下这段代码,意思是,点击 2 个按钮的时候可以改变`visible`的值,让 visible 为 true 的时候,则会让`Visible` 组件下面的内容显示,如果为`false`则不展示
+
+解释下`Visible`组件内的 `children`,
+
+当我们在某个组件内部进行嵌套写内容的时候,此时这个组件会在 props 里存在一个值叫`children`(一定是这个名字,固定的)
+
+此时`children` 表示这个组件嵌套的内容,例如,上方的`Visible`组件,它的嵌套内容则 `这里是children` 这样一段文字,这段文字可以写改成任何代码,你可以在里面写 div 标签,还可以在里面写一个你封装的另外一个组件
+
+可以看到 如果 `!visible` 则会返回`null` ,jsx 对于返回为`null`的结果是不会进行显示的
+
+对此我们可以替换购物车的那段代码
 
 ```jsx
 <Visible visible={carList.length > 0}>
@@ -480,7 +513,7 @@ export default Visible;
 </Visible>
 ```
 
-通过这种方式,可以让我们的代码阅读起来更加方便,当`carList.length > 0` 时,才会显示总价内容,否则不显示
+通过这种方式,可以让我们的代码阅读起来更加方便,当`carList.length > 0` 时,才会显示总价内容,否则不显示,而且通过这种形式嵌套的形式开发,可以让 react 以组件形式开发,每一个段都是一个组件,我们只需要去维护单独的组件即可
 
 ## 购物车拆分
 
