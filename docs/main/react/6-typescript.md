@@ -58,7 +58,7 @@ const handleClick = (name: string, age: number): string => {
 };
 ```
 
-![alt text](ts/image1.png)
+![alt text](./ts/image1.png)
 但是注意,这个只是编辑器报错,并不影响代码运行,但是存在未知的风险,假如,一个函数是返回 number 类型后要进行加减运算,但是,我们实际上返回了一个字符串类型,如果这个字符串后面和其他的数字类型进行运行,则会出现运算错误,所以这就是未知风险,我们要尽可能的避免 ts 这种问题
 
 在上述代码中,`number`, `string` 这是 ts 的的基础类型
@@ -115,7 +115,7 @@ const user: User = {};
 ```
 
 但是此时会出现一个 ts 错误
-![alt text](ts/image2.png)
+![alt text](./ts/image2.png)
 
 因为 User 类型中如果没有添加`?` 可选类型的话,则表示改属性必填
 

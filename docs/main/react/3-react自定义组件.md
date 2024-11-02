@@ -39,7 +39,7 @@ const PetList = () => {
 export default PetList;
 ```
 
-![PetList](3-react自定义组件.assets/image.png)
+![PetList](./3-react自定义组件.assets/image.png)
 
 要使用这个组件我们需要在 App.jsx 引入即可
 

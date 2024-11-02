@@ -23,7 +23,7 @@ npm create vite@latest
 进入到新创建项目文件夹内,打开 cmd 执行 `npm i` 进行安装依赖
 
 用 vscode 打开后,可以看到,基本和我们之前创建的是一样的,但是多了些其他内容
-![alt text](ts/image3.png)
+![alt text](./ts/image3.png)
 
 可以看到我们以前的`jsx` 文件变成了`tsx`, 这个就是 react 和 typescript 的结合文件
 
@@ -115,10 +115,12 @@ type User = {
 };
 const [user, serUser] = useState<User>();
 
-setUser({
-  id: 1,
-  name: "zs",
-});
+const updateUser = () => {
+  serUser({
+    id: 1,
+    name: "zs",
+  });
+};
 ```
 
 ## useMemo 泛型

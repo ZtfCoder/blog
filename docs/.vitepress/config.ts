@@ -1,5 +1,6 @@
 import { defineConfig } from "vitepress";
 import getSidebar from "./getSidebar";
+import markdownImagePreview from "./plugins/imagePreview";
 export default defineConfig({
   // ...
   head: [
@@ -18,6 +19,9 @@ export default defineConfig({
   lastUpdated: true,
   markdown: {
     lineNumbers: true,
+    config: (md) => {
+      md.use(markdownImagePreview);
+    },
   },
   sitemap: {
     hostname: "https://ztfcoder.github.io",

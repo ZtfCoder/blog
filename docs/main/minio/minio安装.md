@@ -47,25 +47,25 @@ services:
 
 首先创建一个桶,所谓桶,可以理解为创建一个空间或者创建一张表,这样理解
 
-![image-20220914113730822](minio安装.assets/image-20220914113730822.png)
+![image-20220914113730822](./minio安装.assets/image-20220914113730822.png)
 
 然后 选择 `create bucket`
-![image-20220914111829483](minio安装.assets/image-20220914111829483.png)
-![image-20220914112115388](minio安装.assets/image-20220914112115388.png)
+![image-20220914111829483](./minio安装.assets/image-20220914111829483.png)
+![image-20220914112115388](./minio安装.assets/image-20220914112115388.png)
 
 上传成功
 
-![image-20220914112219196](minio安装.assets/image-20220914112219196.png)
+![image-20220914112219196](./minio安装.assets/image-20220914112219196.png)
 
 创建桶后,默认桶访问权限是私有的,无法单独访问图片,需要到桶设置里改为 `public`
 
-![image-20220914112410642](minio安装.assets/image-20220914112410642.png)
+![image-20220914112410642](./minio安装.assets/image-20220914112410642.png)
 
 首先回到桶界面,
 
 选择 `manage`
 
-![image-20220914112504082](minio安装.assets/image-20220914112504082.png)
+![image-20220914112504082](./minio安装.assets/image-20220914112504082.png)
 
 点击修改按钮,修改为 `public`
 
