@@ -1,6 +1,7 @@
 export default ({ app, router, siteData }) => {
   if (typeof window !== "undefined") {
-    window.previewImage = (src) => {
+    window.previewImage = (self) => {
+      const src = self.src || self.getAttribute("src");
       if (!src) {
         return;
       }

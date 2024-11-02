@@ -11,6 +11,6 @@ export default function markdownImagePreview(md) {
     const src = token.attrGet("src");
     const alt = token.content;
 
-    return `<img src="${src}" alt="${alt}" onclick="previewImage('${src}')">`;
+    return `<img src="${src}" alt="${alt}" onclick="previewImage(this)">`;
   };
 }
