@@ -37,10 +37,6 @@ export default defineConfig({
         link: "/main/",
       },
       {
-        text: "hxg专属",
-        link: "/hxg/",
-      },
-      {
         text: "常用工具",
         items: [
           {
@@ -93,7 +89,6 @@ export default defineConfig({
       "/杂烩/",
       "/realme/mystory/",
       "/realme/mylog/",
-      "/hxg/"
     ),
     // lastUpdatedText: "上次更新时间",
     docFooter: {
