@@ -62,6 +62,10 @@ export default defineConfig({
         link: "/花花日记",
       },
       {
+        text: "react",
+        link: "/react",
+      },
+      {
         text: "realme",
         items: [
           {
@@ -93,7 +97,8 @@ export default defineConfig({
       "/杂烩/",
       "/realme/mystory/",
       "/realme/mylog/",
-      "/花花日记/"
+      "/花花日记/",
+      "/react/"
     ),
     // lastUpdatedText: "上次更新时间",
     docFooter: {
